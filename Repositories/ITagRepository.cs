@@ -11,8 +11,12 @@ public interface ITagRepository
     Task<bool> AnimeExists(int animeId);
     Task<bool> ExternalAnimeExists(int externalAnimeId);
 
-    Task<IEnumerable<Tag>?> GetTagsForAnime(int animeId);
     Task<Tag> GetTag(int animeId, int tagId);
-    Task CreateTag(int animeId, Tag tag);
+    Task<IEnumerable<Tag>> GetAllTags();
+    Task AddTag(Tag tag);
+    
+    Task AddAnimeTag(int animeId, Tag tag);
+    Task<IEnumerable<Tag>?> GetTagsForAnime(int animeId);
+
 
 }

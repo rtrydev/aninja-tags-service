@@ -40,23 +40,50 @@ public class TagRepository : ITagRepository
 
     public async Task<IEnumerable<Tag>?> GetTagsForAnime(int animeId)
     {
-        var tags = _context.Animes.Where(x => x.Id == animeId).Select(x => x.AnimeTags.Select(y => y.Tag));
-        return await tags.FirstOrDefaultAsync();
+        var animes = await _context.Animes.Include(x => x.AnimeTags)
+            .FirstOrDefaultAsync(x => x.Id == animeId);
+        var tags = animes.AnimeTags.Select(x => x.Tag);
+        return tags;
     }
 
     public async Task<Tag> GetTag(int animeId, int tagId)
     {
-        var tags = await _context.Animes
-            .Where(x => x.Id == animeId)
-            .Select(x => x.AnimeTags.Select(y => y.Tag))
-            .FirstOrDefaultAsync();
+        var animes = await _context.Animes
+            .FirstOrDefaultAsync(x => x.Id == animeId);
+        var tags = animes.AnimeTags.Select(x => x.Tag);
 
         return tags.FirstOrDefault(x => x.Id == tagId);
 
     }
 
-    public async Task CreateTag(int animeId, Tag tag)
+    public async Task<IEnumerable<Tag>> GetAllTags()
     {
+        var tags = await _context.Tags.ToListAsync();
+        return tags;
+    }
 
+    public async Task AddTag(Tag tag)
+    {
+        await _context.Tags.AddAsync(tag);
+    }
+
+    public async Task AddAnimeTag(int animeId, Tag tag)
+    {
+        var tagEntity = await _context.Tags.FirstOrDefaultAsync(x => x.Id == tag.Id);
+        if(tagEntity is null) return;
+        var anime = await _context.Animes
+            .Include(x => x.AnimeTags)
+            .FirstOrDefaultAsync(x => x.Id == animeId);
+        if(anime is null) return;
+        if (anime.AnimeTags.FirstOrDefault() is null)
+        {
+            anime.AnimeTags = new List<AnimeTag>() {new AnimeTag() {AnimeId = anime.Id, TagId = tagEntity.Id}};
+        }
+        else
+        {
+            anime.AnimeTags.Add(new AnimeTag() {AnimeId = anime.Id, TagId = tagEntity.Id});
+
+        }
+        _context.Animes.Update(anime);
     }
 }

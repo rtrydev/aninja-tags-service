@@ -9,9 +9,10 @@ public class TagConfiguration : IEntityTypeConfiguration<Tag>
     public void Configure(EntityTypeBuilder<Tag> builder)
     {
         builder.ToTable("tags");
-        
+
         builder.Property(x => x.Id)
-            .HasColumnName("id");
+            .HasColumnName("id")
+            .ValueGeneratedOnAdd();
 
         builder.Property(x => x.Name)
             .HasColumnName("name")

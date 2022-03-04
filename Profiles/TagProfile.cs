@@ -9,5 +9,6 @@ public class TagProfile : Profile
     public TagProfile()
     {
         CreateMap<Tag, TagReadDto>();
+        CreateMap<TagWriteDto, Tag>();
     }
 }

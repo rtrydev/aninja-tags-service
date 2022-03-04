@@ -11,7 +11,8 @@ public class AnimeConfiguration : IEntityTypeConfiguration<Anime>
         builder.ToTable("animes");
         
         builder.Property(x => x.Id)
-            .HasColumnName("id");
+            .HasColumnName("id")
+            .ValueGeneratedOnAdd();
 
         builder.Property(x => x.ExternalId)
             .HasColumnName("external_id")

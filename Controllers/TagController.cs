@@ -6,12 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace aninja_tags_service.Controllers;
 
-[Route("api/anime/{animeId}/[controller]")]
+[Route("api/tag")]
 [ApiController]
 public class TagController : ControllerBase
 {
-    private readonly ITagRepository _tagRepository;
-    private readonly IMapper _mapper;
+    private ITagRepository _tagRepository;
+    private IMapper _mapper;
 
     public TagController(ITagRepository tagRepository, IMapper mapper)
     {
@@ -19,11 +19,19 @@ public class TagController : ControllerBase
         _mapper = mapper;
     }
 
+
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<TagReadDto>>> GetTagsForAnime(int animeId)
+    public async Task<ActionResult<IEnumerable<TagReadDto>>> GetAllTags()
     {
-        var tags = await _tagRepository.GetTagsForAnime(animeId);
+        var tags = await _tagRepository.GetAllTags();
         return Ok(_mapper.Map<IEnumerable<TagReadDto>>(tags));
     }
 
+    [HttpPost]
+    public async Task<ActionResult> AddTag([FromBody] TagWriteDto tag)
+    {
+        await _tagRepository.AddTag(_mapper.Map<Tag>(tag));
+        await _tagRepository.SaveChangesAsync();
+        return Ok();
+    }
 }
