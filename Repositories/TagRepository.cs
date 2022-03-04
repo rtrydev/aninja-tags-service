@@ -38,6 +38,11 @@ public class TagRepository : ITagRepository
         return await _context.Animes.AnyAsync(x => x.ExternalId == externalAnimeId);
     }
 
+    public async Task<Tag> GetTag(int tagId)
+    {
+        return await _context.Tags.FirstOrDefaultAsync(x => x.Id == tagId);
+    }
+
     public async Task<IEnumerable<Tag>?> GetTagsForAnime(int animeId)
     {
         var animes = await _context.Animes.Include(x => x.AnimeTags)
@@ -46,7 +51,7 @@ public class TagRepository : ITagRepository
         return tags;
     }
 
-    public async Task<Tag> GetTag(int animeId, int tagId)
+    public async Task<Tag> GetAnimeTag(int animeId, int tagId)
     {
         var animes = await _context.Animes
             .FirstOrDefaultAsync(x => x.Id == animeId);

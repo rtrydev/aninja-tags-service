@@ -8,7 +8,8 @@ public class TagProfile : Profile
 {
     public TagProfile()
     {
-        CreateMap<Tag, TagReadDto>();
+        CreateMap<Tag, TagDto>();
         CreateMap<TagWriteDto, Tag>();
+        CreateMap<Tag, TagDetailsDto>();
     }
 }

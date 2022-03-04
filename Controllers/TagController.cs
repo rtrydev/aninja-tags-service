@@ -21,10 +21,17 @@ public class TagController : ControllerBase
 
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<TagReadDto>>> GetAllTags()
+    public async Task<ActionResult<IEnumerable<TagDto>>> GetAllTags()
     {
         var tags = await _tagRepository.GetAllTags();
-        return Ok(_mapper.Map<IEnumerable<TagReadDto>>(tags));
+        return Ok(_mapper.Map<IEnumerable<TagDto>>(tags));
+    }
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult<TagDetailsDto>> GetTag(int id)
+    {
+        var tag = await _tagRepository.GetTag(id);
+        return Ok(_mapper.Map<TagDetailsDto>(tag));
     }
 
     [HttpPost]
