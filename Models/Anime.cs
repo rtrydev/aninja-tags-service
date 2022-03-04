@@ -5,6 +5,6 @@ public class Anime
     public int Id { get; set; }
     public int ExternalId { get; set; }
     public string? TranslatedName { get; set; }
-    public IEnumerable<Tag>? Tags { get; set; }
+    public ICollection<AnimeTag>? AnimeTags { get; set; }
 
 }

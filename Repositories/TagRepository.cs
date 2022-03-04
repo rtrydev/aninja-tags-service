@@ -40,7 +40,7 @@ public class TagRepository : ITagRepository
 
     public async Task<IEnumerable<Tag>?> GetTagsForAnime(int animeId)
     {
-        var tags = _context.Animes.Where(x => x.Id == animeId).Select(x => x.Tags);
+        var tags = _context.Animes.Where(x => x.Id == animeId).Select(x => x.AnimeTags.Select(y => y.Tag));
         return await tags.FirstOrDefaultAsync();
     }
 
@@ -48,7 +48,7 @@ public class TagRepository : ITagRepository
     {
         var tags = await _context.Animes
             .Where(x => x.Id == animeId)
-            .Select(x => x.Tags)
+            .Select(x => x.AnimeTags.Select(y => y.Tag))
             .FirstOrDefaultAsync();
 
         return tags.FirstOrDefault(x => x.Id == tagId);
