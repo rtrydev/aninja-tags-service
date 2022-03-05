@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace aninja_tags_service.Controllers;
 
-[Route("api/c/anime/{animeId}/tag")]
+[Route("api/t/anime/{animeId}/tag")]
 [ApiController]
 public class AnimeTagController : ControllerBase
 {
@@ -22,7 +22,6 @@ public class AnimeTagController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<TagDto>>> GetTagsForAnime(int animeId)
     {
-        await _tagRepository.AddAnimeTag(1, new Tag() {Id = 1, Name = "Horror"});
         var tags = await _tagRepository.GetTagsForAnime(animeId);
         return Ok(_mapper.Map<IEnumerable<TagDto>>(tags));
     }
