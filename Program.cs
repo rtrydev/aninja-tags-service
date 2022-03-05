@@ -1,4 +1,6 @@
+using aninja_tags_service.AsyncDataServices;
 using aninja_tags_service.Data;
+using aninja_tags_service.EventProcessing;
 using aninja_tags_service.Repositories;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +14,8 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddScoped<ITagRepository, TagRepository>();
+builder.Services.AddSingleton<IEventProcessor, EventProcessor>();
+builder.Services.AddHostedService<MessageBusSubscriber>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
