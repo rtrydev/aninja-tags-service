@@ -34,10 +34,10 @@ namespace aninja_tags_service.Migrations
                         .HasColumnType("int")
                         .HasColumnName("external_id");
 
-                    b.Property<string>("TranslatedName")
+                    b.Property<string>("TranslatedTitle")
                         .IsRequired()
                         .HasColumnType("text")
-                        .HasColumnName("translated_name");
+                        .HasColumnName("translated_title");
 
                     b.HasKey("Id");
 

@@ -8,6 +8,8 @@ public class AnimeProfile : Profile
 {
     public AnimeProfile()
     {
-        CreateMap<AnimePublishedDto, Anime>();
+        CreateMap<AnimePublishedDto, Anime>()
+            .ForMember(x => x.ExternalId, y => y.MapFrom(src => src.Id));
+
     }
 }
