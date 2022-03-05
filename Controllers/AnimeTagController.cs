@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace aninja_tags_service.Controllers;
 
-[Route("api/c/anime/{animeId}/tag")]
+[Route("api/t/anime/{animeId}/tag")]
 [ApiController]
 public class AnimeTagController : ControllerBase
 {

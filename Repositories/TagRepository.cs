@@ -46,8 +46,8 @@ public class TagRepository : ITagRepository
     public async Task<IEnumerable<Tag>?> GetTagsForAnime(int animeId)
     {
         var animes = await _context.Animes.Include(x => x.AnimeTags)
-            .FirstOrDefaultAsync(x => x.Id == animeId);
-        var tags = animes.AnimeTags.Select(x => x.Tag);
+            .FirstOrDefaultAsync(x => x.ExternalId == animeId);
+        var tags = animes?.AnimeTags?.Select(x => x.Tag);
         return tags;
     }
 
@@ -78,9 +78,9 @@ public class TagRepository : ITagRepository
         if(tagEntity is null) return;
         var anime = await _context.Animes
             .Include(x => x.AnimeTags)
-            .FirstOrDefaultAsync(x => x.Id == animeId);
+            .FirstOrDefaultAsync(x => x.ExternalId == animeId);
         if(anime is null) return;
-        if (anime.AnimeTags.FirstOrDefault() is null)
+        if (anime.AnimeTags is null)
         {
             anime.AnimeTags = new List<AnimeTag>() {new AnimeTag() {AnimeId = anime.Id, TagId = tagEntity.Id}};
         }
