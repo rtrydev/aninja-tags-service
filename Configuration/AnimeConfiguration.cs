@@ -19,8 +19,8 @@ public class AnimeConfiguration : IEntityTypeConfiguration<Anime>
             .HasColumnType("int")
             .IsRequired();
 
-        builder.Property(x => x.TranslatedName)
-            .HasColumnName("translated_name")
+        builder.Property(x => x.TranslatedTitle)
+            .HasColumnName("translated_title")
             .HasColumnType("text")
             .IsRequired();
 
