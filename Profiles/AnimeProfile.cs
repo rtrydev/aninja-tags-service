@@ -1,3 +1,4 @@
+using aninja_browse_service;
 using aninja_tags_service.Dtos;
 using aninja_tags_service.Models;
 using AutoMapper;
@@ -9,7 +10,10 @@ public class AnimeProfile : Profile
     public AnimeProfile()
     {
         CreateMap<AnimePublishedDto, Anime>()
-            .ForMember(x => x.ExternalId, y => y.MapFrom(src => src.Id));
+            .ForMember(dest => dest.ExternalId, opt => opt.MapFrom(src => src.Id));
+        CreateMap<GrpcAnimeModel, Anime>()
+            .ForMember(dest => dest.ExternalId, opt => opt.MapFrom(src => src.AnimeId))
+            .ForMember(dest => dest.AnimeTags, opt => opt.Ignore());
 
     }
 }
