@@ -1,3 +1,4 @@
+using aninja_tags_service.Commands;
 using aninja_tags_service.Dtos;
 using aninja_tags_service.Models;
 using AutoMapper;
@@ -11,5 +12,7 @@ public class TagProfile : Profile
         CreateMap<Tag, TagDto>();
         CreateMap<TagWriteDto, Tag>();
         CreateMap<Tag, TagDetailsDto>();
+        CreateMap<TagWriteDto, AddTagCommand>();
+        CreateMap<AddTagCommand, Tag>();
     }
 }

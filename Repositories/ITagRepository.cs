@@ -13,7 +13,7 @@ public interface ITagRepository
 
     Task<Tag> GetTag(int tagId);
     Task<IEnumerable<Tag>> GetAllTags();
-    Task AddTag(Tag tag);
+    Task<Tag> CreateTag(Tag tag);
     
     Task AddAnimeTag(int animeId, Tag tag);
     Task<Tag> GetAnimeTag(int animeId, int tagId);

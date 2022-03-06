@@ -1,7 +1,10 @@
+using aninja_tags_service.Commands;
 using aninja_tags_service.Dtos;
 using aninja_tags_service.Models;
+using aninja_tags_service.Queries;
 using aninja_tags_service.Repositories;
 using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace aninja_tags_service.Controllers;
@@ -10,12 +13,12 @@ namespace aninja_tags_service.Controllers;
 [ApiController]
 public class TagController : ControllerBase
 {
-    private ITagRepository _tagRepository;
+    private IMediator _mediator;
     private IMapper _mapper;
 
-    public TagController(ITagRepository tagRepository, IMapper mapper)
+    public TagController(IMediator mediator, IMapper mapper)
     {
-        _tagRepository = tagRepository;
+        _mediator = mediator;
         _mapper = mapper;
     }
 
@@ -23,22 +26,24 @@ public class TagController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<TagDto>>> GetAllTags()
     {
-        var tags = await _tagRepository.GetAllTags();
+        var query = new GetAllTagsQuery();
+        var tags = await _mediator.Send(query);
         return Ok(_mapper.Map<IEnumerable<TagDto>>(tags));
     }
 
     [HttpGet("{id}")]
     public async Task<ActionResult<TagDetailsDto>> GetTag(int id)
     {
-        var tag = await _tagRepository.GetTag(id);
+        var query = new GetTagByIdQuery() {Id = id};
+        var tag = await _mediator.Send(query);
         return Ok(_mapper.Map<TagDetailsDto>(tag));
     }
 
     [HttpPost]
-    public async Task<ActionResult> AddTag([FromBody] TagWriteDto tag)
+    public async Task<ActionResult<TagDetailsDto>> AddTag([FromBody] TagWriteDto tag)
     {
-        await _tagRepository.AddTag(_mapper.Map<Tag>(tag));
-        await _tagRepository.SaveChangesAsync();
-        return Ok();
+        var request = _mapper.Map<AddTagCommand>(tag);
+        var result = await _mediator.Send(request);
+        return Ok(_mapper.Map<TagDetailsDto>(result));
     }
 }
