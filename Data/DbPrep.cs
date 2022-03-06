@@ -7,17 +7,25 @@ namespace aninja_tags_service.Data;
 
 public class DbPrep
 {
-    public static async Task PrepData(IApplicationBuilder app)
+    public static async Task PrepData(IApplicationBuilder app, bool isProduction)
     {
         using (var serviceScope = app.ApplicationServices.CreateScope())
         {
-            var grpcClient = serviceScope.ServiceProvider.GetService<IAnimeDataClient>();
-            var anime = grpcClient.ReturnAllAnime();
-
             var context = serviceScope.ServiceProvider.GetService<AppDbContext>();
-            context.Database.Migrate();
+            if (context is not null)
+            {
+                await context.Database.MigrateAsync();
+            }
             
-            await SeedData(serviceScope.ServiceProvider.GetService<ITagRepository>(), anime); 
+            if (isProduction)
+            {
+                var grpcClient = serviceScope.ServiceProvider.GetService<IAnimeDataClient>();
+                if (grpcClient is not null)
+                {
+                    var anime = grpcClient.ReturnAllAnime(); 
+                    await SeedData(serviceScope.ServiceProvider.GetService<ITagRepository>()!, anime); 
+                }
+            }
         }
     }
 
