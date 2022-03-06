@@ -73,9 +73,10 @@ public class TagRepository : ITagRepository
         return tags;
     }
 
-    public async Task AddTag(Tag tag)
+    public async Task<Tag> CreateTag(Tag tag)
     {
-        await _context.Tags.AddAsync(tag);
+        var addedTag = await _context.Tags.AddAsync(tag);
+        return addedTag.Entity;
     }
 
     public async Task AddAnimeTag(int animeId, Tag tag)
