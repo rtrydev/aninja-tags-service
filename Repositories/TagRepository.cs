@@ -101,6 +101,12 @@ public class TagRepository : ITagRepository
         return addedTag.Entity;
     }
 
+    public async Task<Tag> UpdateTag(Tag tag)
+    {
+        var updatedTag = _context.Tags.Update(tag);
+        return await Task.FromResult(updatedTag.Entity);
+    }
+
     public async Task AddAnimeTag(int animeId, Tag tag)
     {
         var tagEntity = await _context.Tags.FirstOrDefaultAsync(x => x.Id == tag.Id);

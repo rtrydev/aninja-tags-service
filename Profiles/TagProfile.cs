@@ -14,5 +14,7 @@ public class TagProfile : Profile
         CreateMap<Tag, TagDetailsDto>();
         CreateMap<TagWriteDto, AddTagCommand>();
         CreateMap<AddTagCommand, Tag>();
+        CreateMap<TagWriteDto, UpdateTagCommand>();
+        CreateMap<UpdateTagCommand, Tag>();
     }
 }
