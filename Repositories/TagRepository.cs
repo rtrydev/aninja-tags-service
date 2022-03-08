@@ -38,6 +38,15 @@ public class TagRepository : ITagRepository
         return await _context.Animes.AnyAsync(x => x.ExternalId == externalAnimeId);
     }
 
+    public async Task UpdateAnime(Anime anime)
+    {
+        var dbItem = await _context.Animes.FirstOrDefaultAsync(x => x.ExternalId == anime.ExternalId);
+        if(dbItem is null) return;
+        if(dbItem.TranslatedTitle == anime.TranslatedTitle) return;
+        dbItem.TranslatedTitle = anime.TranslatedTitle;
+        _context.Animes.Update(dbItem);
+    }
+
     public async Task<Tag> GetTag(int tagId)
     {
         return await _context.Tags.FirstOrDefaultAsync(x => x.Id == tagId);
