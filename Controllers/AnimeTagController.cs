@@ -34,4 +34,12 @@ public class AnimeTagController : ControllerBase
         return Ok();
     }
 
+    [HttpDelete]
+    public async Task<ActionResult<IEnumerable<TagDto>>> RemoveAnimeTag(int animeId, [FromBody] TagWriteDto tag)
+    {
+        var result = await _tagRepository.RemoveAnimeTag(animeId, _mapper.Map<Tag>(tag));
+        await _tagRepository.SaveChangesAsync();
+        return Ok(_mapper.Map<IEnumerable<TagDto>>(result));
+    }
+
 }
