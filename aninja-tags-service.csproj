@@ -29,6 +29,7 @@
 
   <ItemGroup>
     <Protobuf Include="Protos/anime.proto" GrpcServices="Client" />
+    <Protobuf Include="Protos/tag.proto" GrpcServices="Server" />
   </ItemGroup>
 
 </Project>

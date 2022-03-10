@@ -20,7 +20,7 @@ public class TagRepository : ITagRepository
 
     public async Task<IEnumerable<Anime>> GetAllAnimes()
     {
-        return await _context.Animes.ToListAsync();
+        return await _context.Animes.Include(x => x.AnimeTags).ToListAsync();
     }
 
     public async Task CreateAnime(Anime anime)

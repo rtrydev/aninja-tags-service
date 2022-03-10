@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option csharp_namespace = "aninja_tags_service";
+
+service GrpcTag {
+  rpc GetAllAnimeWithTags (GetAllWithTagsRequest) returns (AnimeResponse);
+}
+
+message GetAllWithTagsRequest {
+  repeated int32 tagId = 1;
+}
+
+message GrpcAnimeModel {
+  int32 animeId = 1;
+  string translatedTitle = 2;
+}
+
+message AnimeResponse {
+  repeated GrpcAnimeModel anime = 1;
+}

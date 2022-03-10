@@ -14,6 +14,8 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(builder
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
 
+builder.Services.AddGrpc();
+
 builder.Services.AddScoped<ITagRepository, TagRepository>();
 builder.Services.AddSingleton<IEventProcessor, EventProcessor>();
 builder.Services.AddHostedService<MessageBusSubscriber>();
@@ -49,5 +51,11 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapGrpcService<GrpcTagsService>();
+app.MapGet("/protos/tag.proto", async context =>
+{
+    await context.Response.WriteAsync(File.ReadAllText("Protos/tag.proto"));
+});
 
 app.Run();
