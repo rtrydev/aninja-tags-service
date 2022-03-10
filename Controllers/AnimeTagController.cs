@@ -1,6 +1,7 @@
 using aninja_tags_service.Commands;
 using aninja_tags_service.Dtos;
 using aninja_tags_service.Models;
+using aninja_tags_service.Queries;
 using aninja_tags_service.Repositories;
 using AutoMapper;
 using MediatR;
@@ -27,7 +28,9 @@ public class AnimeTagController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<TagDto>>> GetTagsForAnime(int animeId)
     {
-        var tags = await _tagRepository.GetTagsForAnime(animeId);
+        var request = new GetTagsForAnimeQuery() {AnimeId = animeId};
+        var tags = await _mediator.Send(request);
+        if (tags is null) return NotFound();
         return Ok(_mapper.Map<IEnumerable<TagDto>>(tags));
     }
 
