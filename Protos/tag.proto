@@ -10,11 +10,11 @@ message GetAllWithTagsRequest {
   repeated int32 tagId = 1;
 }
 
-message GrpcAnimeModel {
+message GrpcTagAnimeModel {
   int32 animeId = 1;
   string translatedTitle = 2;
 }
 
 message AnimeResponse {
-  repeated GrpcAnimeModel anime = 1;
+  repeated GrpcTagAnimeModel anime = 1;
 }

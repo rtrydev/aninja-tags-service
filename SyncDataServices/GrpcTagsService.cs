@@ -25,7 +25,7 @@ public class GrpcTagsService : GrpcTag.GrpcTagBase
         var animes = await _mediator.Send(query);
         foreach (var anime in animes)
         {
-            response.Anime.Add(_mapper.Map<GrpcAnimeModel>(anime));
+            response.Anime.Add(_mapper.Map<GrpcTagAnimeModel>(anime));
         }
 
         return response;
