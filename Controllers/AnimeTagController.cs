@@ -47,6 +47,7 @@ public class AnimeTagController : ControllerBase
             TagId = tagId
         };
         var result = await _mediator.Send(request);
+        if (result is null) return NotFound();
         return Ok(_mapper.Map<TagDto>(result));
     }
 
