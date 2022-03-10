@@ -18,6 +18,4 @@ public interface ITagRepository
     Task<Tag> CreateTag(Tag tag);
     Task<Tag> UpdateTag(Tag tag);
 
-    Task<Tag?> GetAnimeTag(int animeId, int tagId);
-
 }

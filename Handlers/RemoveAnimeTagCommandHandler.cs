@@ -19,16 +19,16 @@ public class RemoveAnimeTagCommandHandler : IRequestHandler<RemoveAnimeTagComman
 
     public async Task<Tag?> Handle(RemoveAnimeTagCommand request, CancellationToken cancellationToken)
     {
-        var animeTag = await _tagRepository.GetAnimeTag(request.AnimeId, request.TagId);
-        if (animeTag is null) return null;
         var anime = await _tagRepository.GetAnime(request.AnimeId);
         if (anime is null) return null;
         if(anime.AnimeTags is null) return null;
-        var tagInEntity = anime.AnimeTags.FirstOrDefault(x => x.TagId == animeTag.Id);
-        if(tagInEntity is null) return null;
-        anime.AnimeTags.Remove(tagInEntity);
+
+        var animeTag = anime.AnimeTags.FirstOrDefault(x => x.TagId == request.TagId);
+        if (animeTag is null) return null;
+        anime.AnimeTags.Remove(animeTag);
         var result = await _tagRepository.UpdateAnime(anime);
         await _tagRepository.SaveChangesAsync();
-        return tagInEntity.Tag;
+
+        return await _tagRepository.GetTag(animeTag.TagId);
     }
 }
