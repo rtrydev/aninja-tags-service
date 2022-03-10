@@ -46,4 +46,13 @@ public class TagController : ControllerBase
         var result = await _mediator.Send(request);
         return Ok(_mapper.Map<TagDetailsDto>(result));
     }
+
+    [HttpPut]
+    public async Task<ActionResult<TagDetailsDto>> UpdateTag([FromBody] TagWriteDto tag)
+    {
+        var request = _mapper.Map<UpdateTagCommand>(tag);
+        var result = await _mediator.Send(request);
+        return Ok(_mapper.Map<TagDetailsDto>(result));
+    }
+    
 }
