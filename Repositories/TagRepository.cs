@@ -57,19 +57,6 @@ public class TagRepository : ITagRepository
         return await _context.Tags.FirstOrDefaultAsync(x => x.Id == tagId);
     }
 
-    public async Task<IEnumerable<Tag>?> GetTagsForAnime(int animeId)
-    {
-        var animeTags = await _context.Animes
-            .Include(x => x.AnimeTags)
-            .Where(x => x.ExternalId == animeId)
-            .SelectMany(x => x.AnimeTags.Select(y => y.TagId))
-            .ToListAsync();
-            
-        if (animeTags is null) return null;
-        var tags = await _context.Tags.Where(x => animeTags.Contains(x.Id)).ToListAsync();
-        
-        return tags;
-    }
     public async Task<Tag?> GetAnimeTag(int animeId, int tagId)
     {
         var animes = await _context.Animes.Include(x => x.AnimeTags)

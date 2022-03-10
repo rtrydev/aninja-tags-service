@@ -19,6 +19,5 @@ public interface ITagRepository
     Task<Tag> UpdateTag(Tag tag);
 
     Task<Tag?> GetAnimeTag(int animeId, int tagId);
-    Task<IEnumerable<Tag>?> GetTagsForAnime(int animeId);
 
 }

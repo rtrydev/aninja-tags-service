@@ -6,7 +6,7 @@ using MediatR;
 
 namespace aninja_tags_service.Handlers;
 
-public class RemoveAnimeTagCommandHandler : IRequestHandler<RemoveAnimeTagCommand, IEnumerable<Tag>?>
+public class RemoveAnimeTagCommandHandler : IRequestHandler<RemoveAnimeTagCommand, Tag?>
 {
     private ITagRepository _tagRepository;
     private IMapper _mapper;
@@ -17,7 +17,7 @@ public class RemoveAnimeTagCommandHandler : IRequestHandler<RemoveAnimeTagComman
         _mapper = mapper;
     }
 
-    public async Task<IEnumerable<Tag>?> Handle(RemoveAnimeTagCommand request, CancellationToken cancellationToken)
+    public async Task<Tag?> Handle(RemoveAnimeTagCommand request, CancellationToken cancellationToken)
     {
         var animeTag = await _tagRepository.GetAnimeTag(request.AnimeId, request.TagId);
         if (animeTag is null) return null;
@@ -29,7 +29,6 @@ public class RemoveAnimeTagCommandHandler : IRequestHandler<RemoveAnimeTagComman
         anime.AnimeTags.Remove(tagInEntity);
         var result = await _tagRepository.UpdateAnime(anime);
         await _tagRepository.SaveChangesAsync();
-        var tags = await _tagRepository.GetTagsForAnime(request.AnimeId);
-        return tags;
+        return tagInEntity.Tag;
     }
 }

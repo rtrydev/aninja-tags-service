@@ -44,7 +44,7 @@ public class AnimeTagController : ControllerBase
     }
 
     [HttpDelete("{tagId}")]
-    public async Task<ActionResult<IEnumerable<TagDto>>> RemoveAnimeTag(int animeId, int tagId)
+    public async Task<ActionResult<TagDto>> RemoveAnimeTag(int animeId, int tagId)
     {
         var request = new RemoveAnimeTagCommand()
         {
@@ -52,7 +52,7 @@ public class AnimeTagController : ControllerBase
             TagId = tagId
         };
         var result = await _mediator.Send(request);
-        return Ok(_mapper.Map<IEnumerable<TagDto>>(result));
+        return Ok(_mapper.Map<TagDto>(result));
     }
 
 }
