@@ -1,4 +1,4 @@
-using aninja_browse_service;
+using aninja_anime_service;
 using aninja_tags_service.Models;
 using AutoMapper;
 using Grpc.Net.Client;
