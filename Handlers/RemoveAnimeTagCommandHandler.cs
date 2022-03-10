@@ -9,12 +9,10 @@ namespace aninja_tags_service.Handlers;
 public class RemoveAnimeTagCommandHandler : IRequestHandler<RemoveAnimeTagCommand, Tag?>
 {
     private ITagRepository _tagRepository;
-    private IMapper _mapper;
 
-    public RemoveAnimeTagCommandHandler(ITagRepository tagRepository, IMapper mapper)
+    public RemoveAnimeTagCommandHandler(ITagRepository tagRepository)
     {
         _tagRepository = tagRepository;
-        _mapper = mapper;
     }
 
     public async Task<Tag?> Handle(RemoveAnimeTagCommand request, CancellationToken cancellationToken)

@@ -1,11 +1,8 @@
 using aninja_tags_service.Commands;
 using aninja_tags_service.Dtos;
-using aninja_tags_service.Models;
 using aninja_tags_service.Queries;
-using aninja_tags_service.Repositories;
 using AutoMapper;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace aninja_tags_service.Controllers;
@@ -14,13 +11,11 @@ namespace aninja_tags_service.Controllers;
 [ApiController]
 public class AnimeTagController : ControllerBase
 {
-    private readonly ITagRepository _tagRepository;
     private readonly IMapper _mapper;
     private readonly IMediator _mediator;
 
-    public AnimeTagController(ITagRepository tagRepository, IMapper mapper, IMediator mediator)
+    public AnimeTagController(IMapper mapper, IMediator mediator)
     {
-        _tagRepository = tagRepository;
         _mapper = mapper;
         _mediator = mediator;
     }
