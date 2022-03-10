@@ -100,23 +100,4 @@ public class TagRepository : ITagRepository
         return await Task.FromResult(updatedTag.Entity);
     }
 
-    public async Task AddAnimeTag(int animeId, int tagId)
-    {
-        var tagEntity = await _context.Tags.FirstOrDefaultAsync(x => x.Id == tagId);
-        if(tagEntity is null) return;
-        var anime = await _context.Animes
-            .Include(x => x.AnimeTags)
-            .FirstOrDefaultAsync(x => x.ExternalId == animeId);
-        if(anime is null) return;
-        if (anime.AnimeTags is null)
-        {
-            anime.AnimeTags = new List<AnimeTag>() {new AnimeTag() {AnimeId = anime.Id, TagId = tagEntity.Id}};
-        }
-        else
-        {
-            anime.AnimeTags.Add(new AnimeTag() {AnimeId = anime.Id, TagId = tagEntity.Id});
-
-        }
-        _context.Animes.Update(anime);
-    }
 }
