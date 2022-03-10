@@ -32,11 +32,12 @@ public class AnimeTagController : ControllerBase
     }
 
     [HttpPut("{tagId}")]
-    public async Task<ActionResult> AddTagToAnime(int animeId, int tagId)
+    public async Task<ActionResult<TagDto>> AddTagToAnime(int animeId, int tagId)
     {
-        await _tagRepository.AddAnimeTag(animeId, tagId);
-        await _tagRepository.SaveChangesAsync();
-        return Ok();
+        var request = new AddAnimeTagCommand() {AnimeId = animeId, TagId = tagId};
+        var tag = await _mediator.Send(request);
+        if (tag is null) return NotFound();
+        return Ok(_mapper.Map<TagDto>(tag));
     }
 
     [HttpDelete("{tagId}")]
