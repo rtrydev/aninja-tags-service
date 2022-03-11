@@ -38,7 +38,7 @@ public class TagRepository : ITagRepository
         return await _context.Animes.AnyAsync(x => x.ExternalId == externalAnimeId);
     }
 
-    public async Task<Anime> UpdateAnime(Anime anime)
+    public async Task<Anime?> UpdateAnime(Anime anime)
     {
         var dbItem = await _context.Animes.FirstOrDefaultAsync(x => x.ExternalId == anime.ExternalId);
         if(dbItem is null) return null;

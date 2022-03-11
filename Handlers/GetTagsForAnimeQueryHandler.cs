@@ -17,8 +17,10 @@ public class GetTagsForAnimeQueryHandler : IRequestHandler<GetTagsForAnimeQuery,
     public async Task<IEnumerable<Tag>?> Handle(GetTagsForAnimeQuery request, CancellationToken cancellationToken)
     {
         var anime = await _tagRepository.GetAnime(request.AnimeId);
+        if (anime is null) return null;
+        if (anime.AnimeTags is null) return null;
+
         var animeTags = anime.AnimeTags.Select(x => x.TagId);
-        if (animeTags is null) return null;
 
         var tags = await _tagRepository.GetAllTags();
         
