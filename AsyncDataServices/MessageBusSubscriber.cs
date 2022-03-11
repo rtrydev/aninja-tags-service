@@ -9,9 +9,9 @@ public class MessageBusSubscriber : BackgroundService
 {
     private readonly IConfiguration _configuration;
     private readonly IEventProcessor _eventProcessor;
-    private IConnection _connection;
-    private IModel _channel;
-    private string _queueName;
+    private IConnection? _connection;
+    private IModel? _channel;
+    private string? _queueName;
 
     public MessageBusSubscriber(IConfiguration configuration, IEventProcessor eventProcessor)
     {
@@ -43,10 +43,15 @@ public class MessageBusSubscriber : BackgroundService
 
     public override void Dispose()
     {
+        if (_channel is null)
+        {
+            base.Dispose();
+            return;
+        }
         if (_channel.IsOpen)
         {
             _channel.Close();
-            _connection.Close();
+            _connection?.Close();
         }
         
         base.Dispose();

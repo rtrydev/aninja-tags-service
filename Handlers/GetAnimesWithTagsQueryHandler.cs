@@ -19,7 +19,8 @@ public class GetAnimesWithTagsQueryHandler : IRequestHandler<GetAnimesWithTagsQu
         var animes = await _tagRepository.GetAllAnimes();
         if (request.tagIds is not null)
         {
-            animes = animes.Where(x => request.tagIds.All(y => x.AnimeTags.Any(z => z.TagId == y)));
+            animes = animes.Where(x => x.AnimeTags is not null);
+            animes = animes.Where(x => request.tagIds.All(y => x.AnimeTags!.Any(z => z.TagId == y)));
         }
 
         return animes.Select(x => new Anime(){ExternalId = x.ExternalId, TranslatedTitle = x.TranslatedTitle});

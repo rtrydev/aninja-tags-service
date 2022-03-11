@@ -5,7 +5,7 @@ using MediatR;
 
 namespace aninja_tags_service.Handlers;
 
-public class GetTagByIdQueryHandler : IRequestHandler<GetTagByIdQuery, Tag>
+public class GetTagByIdQueryHandler : IRequestHandler<GetTagByIdQuery, Tag?>
 {
     private ITagRepository _tagRepository;
 
@@ -14,7 +14,7 @@ public class GetTagByIdQueryHandler : IRequestHandler<GetTagByIdQuery, Tag>
         _tagRepository = tagRepository;
     }
 
-    public async Task<Tag> Handle(GetTagByIdQuery request, CancellationToken cancellationToken)
+    public async Task<Tag?> Handle(GetTagByIdQuery request, CancellationToken cancellationToken)
     {
         var item = await _tagRepository.GetTag(request.Id);
         return item;

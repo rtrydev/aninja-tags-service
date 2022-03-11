@@ -6,8 +6,8 @@ namespace aninja_tags_service.Data;
 
 public class AppDbContext : DbContext
 {
-    public DbSet<Anime> Animes { get; set; }
-    public DbSet<Tag> Tags { get; set; }
+    public virtual DbSet<Anime> Animes { get; set; } = null!;
+    public virtual DbSet<Tag> Tags { get; set; } = null!;
     
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) {}
 
