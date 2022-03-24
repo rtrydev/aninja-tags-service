@@ -3,6 +3,7 @@ using aninja_tags_service.Dtos;
 using aninja_tags_service.Queries;
 using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace aninja_tags_service.Controllers;
@@ -30,6 +31,7 @@ public class AnimeTagController : ControllerBase
     }
 
     [HttpPut("{tagId}")]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<TagDto>> AddTagToAnime(int animeId, int tagId)
     {
         var request = new AddAnimeTagCommand() {AnimeId = animeId, TagId = tagId};
@@ -39,6 +41,7 @@ public class AnimeTagController : ControllerBase
     }
 
     [HttpDelete("{tagId}")]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<TagDto>> RemoveAnimeTag(int animeId, int tagId)
     {
         var request = new RemoveAnimeTagCommand()

@@ -5,6 +5,7 @@ using aninja_tags_service.Queries;
 using aninja_tags_service.Repositories;
 using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace aninja_tags_service.Controllers;
@@ -40,6 +41,7 @@ public class TagController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<TagDetailsDto>> AddTag([FromBody] TagWriteDto tag)
     {
         var request = _mapper.Map<AddTagCommand>(tag);
@@ -48,6 +50,7 @@ public class TagController : ControllerBase
     }
 
     [HttpPut]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<TagDetailsDto>> UpdateTag([FromBody] TagWriteDto tag)
     {
         var request = _mapper.Map<UpdateTagCommand>(tag);
