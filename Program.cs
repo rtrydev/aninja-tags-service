@@ -4,7 +4,10 @@ using aninja_tags_service.EventProcessing;
 using aninja_tags_service.Repositories;
 using aninja_tags_service.SyncDataServices;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +23,18 @@ builder.Services.AddScoped<ITagRepository, TagRepository>();
 builder.Services.AddSingleton<IEventProcessor, EventProcessor>();
 builder.Services.AddHostedService<MessageBusSubscriber>();
 builder.Services.AddScoped<IAnimeDataClient, AnimeDataClient>();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(o =>
+{
+    o.TokenValidationParameters = new TokenValidationParameters()
+    {
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT_SECRET"))),
+        ValidateIssuerSigningKey = true,
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        ClockSkew = TimeSpan.Zero
+    };
+});
 
 builder.Services.AddCors(c =>
 {
@@ -49,6 +64,7 @@ app.UseCors();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+app.UseAuthentication();
 
 app.MapControllers();
 
