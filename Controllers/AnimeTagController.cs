@@ -31,7 +31,6 @@ public class AnimeTagController : ControllerBase
     }
 
     [HttpPut("{tagId}")]
-    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<TagDto>> AddTagToAnime(int animeId, int tagId)
     {
         var request = new AddAnimeTagCommand() {AnimeId = animeId, TagId = tagId};
@@ -41,7 +40,6 @@ public class AnimeTagController : ControllerBase
     }
 
     [HttpDelete("{tagId}")]
-    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<TagDto>> RemoveAnimeTag(int animeId, int tagId)
     {
         var request = new RemoveAnimeTagCommand()

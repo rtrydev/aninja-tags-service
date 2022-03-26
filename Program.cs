@@ -24,18 +24,6 @@ builder.Services.AddSingleton<IEventProcessor, EventProcessor>();
 builder.Services.AddHostedService<MessageBusSubscriber>();
 builder.Services.AddScoped<IAnimeDataClient, AnimeDataClient>();
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(o =>
-{
-    o.TokenValidationParameters = new TokenValidationParameters()
-    {
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT_SECRET"))),
-        ValidateIssuerSigningKey = true,
-        ValidateIssuer = false,
-        ValidateAudience = false,
-        ClockSkew = TimeSpan.Zero
-    };
-});
-
 builder.Services.AddCors(c =>
 {
     c.AddDefaultPolicy(b =>
